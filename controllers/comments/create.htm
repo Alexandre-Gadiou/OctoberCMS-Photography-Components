@@ -1,0 +1,42 @@
+<?php Block::put('breadcrumb') ?>
+<ul>
+    <li><a href="<?= Backend::url('algad/photography/comments') ?>">Comments</a></li>
+    <li><?= e($this->pageTitle) ?></li>
+</ul>
+<?php Block::endPut() ?>
+
+<?php if (!$this->fatalError): ?>
+
+<?= Form::open(['class' => 'layout']) ?>
+
+<div class="layout-row">
+    <?= $this->formRender() ?>
+</div>
+
+<div class="form-buttons">
+    <div class="loading-indicator-container">
+        <button
+            type="button"
+            data-request="onSave"
+            data-request-data="close:1"
+            data-hotkey="ctrl+enter, cmd+enter"
+            data-load-indicator="Creating Comment..."
+            class="btn btn-primary">
+            <?= e(trans('algad.photography::lang.button.create')) ?>
+        </button>
+        <span class="btn btn-text">
+            <a href="<?= Backend::url('algad/photography/comments') ?>">
+                <?= e(trans('algad.photography::lang.button.cancel')) ?>
+            </a>
+        </span>
+    </div>
+</div>
+
+<?= Form::close() ?>
+
+<?php else: ?>
+
+<p class="flash-message static error"><?= e($this->fatalError) ?></p>
+<p><a href="<?= Backend::url('algad/photography/comments') ?>" class="btn btn-default">Return to comments list</a></p>
+
+<?php endif ?>

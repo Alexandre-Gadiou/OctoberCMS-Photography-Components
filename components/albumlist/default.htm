@@ -1,0 +1,41 @@
+{% set albums = __SELF__.albumsList %}
+
+
+<div class="album-list clearfix grid">
+    {% for album in albums %}
+
+    {% set isAlbum = __SELF__.isAlbum(album) %}
+
+    {% set albumURL = __SELF__.getEncodedURL(album) %}
+
+
+    {% if isAlbum %}
+    {% set linkURL = "/album/"~albumURL %}
+    {% endif %}
+
+    {% if not isAlbum %}
+    {% set linkURL = "/album-list/"~albumURL %}
+    {% endif %}
+
+    <a href="{{linkURL}}">
+        <figure class="effect-oscar  wowload fadeInUp">
+            <img src="{{__SELF__.getPhotoURL(__SELF__.getAlbumLogo(album))}}" alt="{{__SELF__.getAlbumTitle(album)}}">
+
+            <figcaption>
+                <h2>{{__SELF__.getAlbumTitle(album)}}</h2>
+
+                {% set albumDate = __SELF__.getAlbumDate(album) %}
+                {% if albumDate is not empty %}
+                <p>
+                    {{albumDate}}
+                </p>
+                {% endif %}
+            </figcaption>
+        </figure>
+    </a>
+
+    {% endfor %}
+
+</div>
+
+

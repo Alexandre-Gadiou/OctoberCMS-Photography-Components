@@ -1,0 +1,70 @@
+{% if not (__SELF__.alias is empty) %}
+{% set galleriaID = __SELF__.alias %}
+{% else %}
+{% set galleriaID = __SELF__.id %}
+{% endif %}
+
+{% set albumName = __SELF__.getName() %}
+{% set photos = __SELF__.getPhotoList() %}
+{% set galleryHeight = __SELF__.getProperty('gallery_height') %}
+{% set photosWidth = __SELF__.getProperty('photos_width') %}
+{% set photosSpacing = __SELF__.getProperty('photos_spacing') %}
+{% if __SELF__.getProperty('photos_info') %}
+{% set photosInfo = 'true' %}
+{% else %}
+{% set photosInfo = 'false' %}
+{% endif %}
+
+
+<div id="{{galleriaID}}" class="album galleria folio" data-photos-info="{{photosInfo}}" style="display:none;" itemscope itemtype="http://schema.org/ImageGallery">
+
+    <meta itemprop="name" content="{{ albumName }}" />
+    <meta itemprop="headline" content="{{ albumName }}" />
+
+    {% for photo in photos %} 
+    {% set photoURL = __SELF__.getPhotoURL(photo) %}
+    {% set photoTitle = __SELF__.getPhotoTitle(photo) %}
+
+    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+        <a href="{{ photoURL }}">
+            <img itemprop="contentUrl" src="{{ photoURL }}" 
+                 data-big="{{ photoURL }}" 
+                 alt="{{photoTitle}}"/>
+            <meta itemprop="name" content="{{photoTitle}}" />
+            <meta itemprop="alternateName" content="{{photoTitle}}" />
+        </a>
+    </figure>
+
+    {% endfor %}
+
+</div>
+
+{% put styles %}
+<link rel="stylesheet" type="text/css" href="/plugins/algad/photography/assets/vendor/galleria/css/galleria.folio.css" />
+<style type="text/css" scoped>
+
+    {% if galleryHeight %}
+    #{{galleriaID}} {
+        height: {{galleryHeight}};
+    }
+    {% endif %}
+
+    {% if photosSpacing %}
+    #{{galleriaID}} .galleria-thumbnails .galleria-image {
+        margin: {{photosSpacing}}; 
+    }
+    {% endif %}
+
+    {% if photosWidth %}
+    #{{galleriaID}} .galleria-thumbnails .galleria-image { width:{{photosWidth}} }
+    {% endif %}
+
+
+
+</style>
+{% endput %}
+
+{% put scripts %}
+<script src="/plugins/algad/photography/assets/vendor/galleria/javascript/galleria.folio.min.js"></script>
+<script src="/plugins/algad/photography/assets/javascript/components/album.js"></script>
+{% endput %}

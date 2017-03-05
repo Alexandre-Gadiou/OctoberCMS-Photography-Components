@@ -1,0 +1,15 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: algad.photography::lang.comment.title
+    text:
+        label: algad.photography::lang.comment.text
+        type: richeditor
+        size: huge
+    photo:
+        label: algad.photography::lang.comment.photo
+        type: mediafinder
+        mode: image

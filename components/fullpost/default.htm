@@ -1,0 +1,56 @@
+{% set post = __SELF__.post %}
+
+<div class="post">
+
+    {% if post.featured_images.count > 0 %}
+    <img class="post-picture" src="{{post.featured_images[0].path}}" alt="{{post.featured_images[0].filename}}" />
+    {% endif %}
+
+    <div class="post-content">
+        {{ post.content_html|raw }}
+    </div>
+
+    <p class="post-info">
+        Posted
+        {% if post.categories.count %} in
+        {% for category in post.categories %}
+        <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+        {% endfor %}
+        {% endif %}
+        on {{ post.published_at|date('M d, Y') }}
+    </p>
+
+    {% if post.featured_images.count %}
+    <div id="album" class="post-gallery text-center album magnific-popup-player" itemscope itemtype="http://schema.org/ImageGallery" >
+
+        {% set displayPhoto = '' %}
+        {% for image in post.featured_images %}
+
+        {% if loop.index-1 > 3  %}
+        {% set displayPhoto = 'display:none;' %}
+        {% endif %}
+
+        {% if not loop.first %}
+        <figure style="{{displayPhoto}}" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <a href="{{ image.path }}" title="{{ image.description }}">
+                <img itemprop="contentUrl" src="{{ image.path }}" 
+                     data-big="{{ image.path }}" 
+                     alt="{{ image.description }}"/>
+                <meta itemprop="name" content="{{ image.path }}" />
+                <meta itemprop="alternateName" content="{{ image.description }}" />
+            </a>
+
+        </figure>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+    {% put scripts %}
+    <script src="/plugins/algad/photography/assets/vendor/jquery-magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="/plugins/algad/photography/assets/javascript/components/magnific-popup-player.js"></script>
+    {% endput %}
+    {% endif %}
+
+</div>
+
+

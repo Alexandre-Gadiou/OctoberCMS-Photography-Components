@@ -1,0 +1,17 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    title:
+        label: algad.photography::lang.comment.title
+        searchable: true
+    text:
+        label: algad.photography::lang.comment.text
+        searchable: true
+    photo:
+        label: algad.photography::lang.comment.photo
+        searchable: true
+    created_at:
+        label: algad.photography::lang.comment.created_at
+        searchable: true

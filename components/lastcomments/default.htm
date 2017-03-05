@@ -1,0 +1,42 @@
+{% set commentList = __SELF__.commentList %}
+
+{% for comment in commentList %}
+
+{% set commentTitle = comment.title %}
+{% set commentText = comment.text %}
+{% set commentPhoto = comment.photo|media %}
+<div class="comment">
+    <div class="row">
+        {% if ( (commentPhoto is not empty) and not ((commentPhoto=='storage/app/media') or (commentPhoto=='/storage/app/media/')) ) %}
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <div class="image">
+                <img class="img-circle" src="{{commentPhoto}}" />
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-9 ">
+            {% if (commentTitle is not empty) or (commentText is not empty)%}
+            <div class="title">{{commentTitle|raw}}</div>
+            <div class="text">
+                {{commentText|raw}}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if (commentPhoto is empty) or (commentPhoto=='storage/app/media') or (commentPhoto=='/storage/app/media/') and ((commentTitle is not empty) or (commentText is not empty)) %}
+        <div class="col-xs-12">
+            {% if (commentTitle is not empty) or (commentText is not empty)%}
+            <div class="title">{{commentTitle|raw}}</div>
+            <div class="text">
+                {{commentText|raw}}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endfor %}
+
+

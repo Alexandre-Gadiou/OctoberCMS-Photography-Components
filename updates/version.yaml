@@ -1,0 +1,4 @@
+1.0.0: First version of Photography Components plugin for October CMS
+1.0.1:
+    - Initialize database
+    - create_comments_table.php

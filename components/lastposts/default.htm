@@ -1,0 +1,55 @@
+{% set posts = __SELF__.posts %}
+
+<ul class="lastPosts">
+    {% if posts.count ==0 %}
+    <li>
+        {{ trans("blog.noPostsMessage",'algad.photography') }}
+    </li>
+    {% endif %}
+    {% for post in posts %}
+    <li class="post list">
+
+        <a class="post-full-link" href="{{ post.url }}">
+            {% if post.featured_images.count > 0 %}
+            <img class="post-picture" src="{{post.featured_images[0].path}}" alt="{{post.featured_images[0].filename}}" />
+            {% endif %}
+            <h3 class="post-title" >{{ post.title }}</h3>
+        </a>
+
+        <p class="post-info">
+            Posted
+            {% if post.categories.count %} in {% endif %}
+            {% for category in post.categories %}
+            <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+            on {{ post.published_at|date('M d, Y') }}
+        </p>
+
+        <p class="post-description">{{ post.summary }}</p>
+
+        <a class="post-full-link" href="{{ post.url }}">
+            {{ trans("blog.seePostDetail",'algad.photography') }} <span class="fa fa-chevron-right"></span>
+        </a>
+    </li>
+    {% else %}
+    <li class="no-data">{{ noPostsMessage }}</li>
+    {% endfor %}
+</ul>
+
+{% if posts.lastPage > 1 %}
+<ul class="pagination">
+    {% if posts.currentPage > 1 %}
+    <li><a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage-1) }) }}">&larr; Prev</a></li>
+    {% endif %}
+
+    {% for page in 1..posts.lastPage %}
+    <li class="{{ posts.currentPage == page ? 'active' : null }}">
+        <a href="{{ this.page.baseFileName|page({ (pageParam): page }) }}">{{ page }}</a>
+    </li>
+    {% endfor %}
+
+    {% if posts.lastPage > posts.currentPage %}
+    <li><a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage+1) }) }}">Next &rarr;</a></li>
+    {% endif %}
+</ul>
+{% endif %}
